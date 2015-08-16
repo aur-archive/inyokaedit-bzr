@@ -1,0 +1,28 @@
+# Maintainer: Markus Holtermann <aur@markusholtermann.eu>
+pkgname=inyokaedit-bzr
+pkgver=20130716
+pkgrel=1
+pkgdesc='A small markup editor for Inyoka articles (http://ubuntuusers.de/inyoka/). It includes syntax highlighting, offline preview, downloading raw text of existing articles...'
+arch=('i686' 'x86_64')
+url='https://launchpad.net/inyokaedit/'
+license=('GPL3')
+depends=('hunspell' 'qtwebkit' 'wget')
+makedepends=('bzr')
+source=()
+md5sums=()
+conflicts=('inyokaedit')
+
+_bzr_url="http://bazaar.launchpad.net/~elthoro/inyokaedit/trunk"
+_pkgname=inyokaedit
+
+build() {
+    bzr export $pkgname-$pkgver $_bzr_url
+    cd "$srcdir/$pkgname-$pkgver"
+    qmake-qt4
+    make
+}
+
+package() {
+    cd "$srcdir/$pkgname-$pkgver"
+    INSTALL_ROOT=$pkgdir make install
+}
